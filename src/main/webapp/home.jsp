@@ -6,10 +6,8 @@
  -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" %> 
-	<!-- 
-	taglib uri="http://struts.apache.org/tags-html" prefix="html" 
-	 -->
+	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,11 +16,10 @@
 </head>
 <body>
 	<div style="text-align: center;">
-	<img src="${pageContext.request.contextPath}/src/main/webapp/Image/ToDo-App-Logo-Design.png" />	
-<%--  
-<img alt="Logo" src="<html:rewrite page='/src/main/webapp/Images/ToDo-App-Logo-Design.png'/>" width="100%" height="20%"/>
- --%>	
+		<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"/>
 		<h2>Home page</h2>
+	</div>
+	<div style="text-align: center;">
 		<form action="UserController?action=login" method="post"></form>
 		Email :- <input type="text" name="email"><br> Password :-
 		<input type="password" name="password"><br> <input
