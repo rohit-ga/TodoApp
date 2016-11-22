@@ -16,15 +16,19 @@
 </head>
 <body>
 	<div style="text-align: center;">
-		<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"/>
+		<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
+			style="float: left" /><br>
+		<br>
+		<br>
 		<h2>Home page</h2>
 	</div>
 	<div style="text-align: center;">
 		<form action="UserController?action=login" method="post"></form>
-		Email :- <input type="text" name="email"><br> Password :-
-		<input type="password" name="password"><br> <input
-			type="submit" value="Login"><br> <a href="register.jsp">New
-			User? Register Here</a>
+		Email :- <input type="text" name="email"><br>
+		<br> Password :- <input type="password" name="password"><br>
+		<br>
+		<input type="submit" value="Login"><br> <a
+			href="register.jsp">New User? Register Here</a>
 		<!-- <form action="UserController?action=register" method="post"></form> 
 <input type=submit value="New User?Register Here">
  -->
