@@ -20,7 +20,10 @@
 			Contact:-<br> <input type="text" name="contact"><br>
 			Email:-<br> <input type="text" name="email"><br>
 			Password:-<br> <input type="password" name="password"><br>
-			<br> <input type="submit" value="Register">
+			<br> <input type="submit" value="Register"><br><br>
+			<a href="dashboard.jsp" >Dashboard Page</a><br><br>
+			
+			<a href="home.jsp">Home Page</a><br><br>
 		</form>
 	</div>
 </body>

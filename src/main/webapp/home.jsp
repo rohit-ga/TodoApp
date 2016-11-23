@@ -27,7 +27,7 @@
 		Email :- <input type="text" name="email"><br>
 		<br> Password :- <input type="password" name="password"><br>
 		<br>
-		<input type="submit" value="Login"><br> <a
+		<input type="submit" value="Login"><br><br> <a
 			href="register.jsp">New User? Register Here</a>
 		<!-- <form action="UserController?action=register" method="post"></form> 
 <input type=submit value="New User?Register Here">
