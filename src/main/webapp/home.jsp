@@ -15,11 +15,13 @@
 <title>Home Page</title>
 </head>
 <body>
+
 	<div style="text-align: center;">
 		<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
 			style="float: left" /><br>
 		<br>
 		<br>
+		<%= request.getAttribute("message") %>
 		<h2>Home page</h2>
 	</div>
 	<div style="text-align: center;">
