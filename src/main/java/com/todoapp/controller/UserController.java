@@ -23,8 +23,8 @@ public class UserController extends HttpServlet {
      * 
      * }
      */
-    User user = new User();
-    UserServicesImpl userService = new UserServicesImpl();
+    // User user = new User();
+    // UserServicesImpl userService = new UserServicesImpl();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -50,13 +50,17 @@ public class UserController extends HttpServlet {
 
         String action = request.getParameter("action");
 
+        System.out.println(action);
         if (action.equalsIgnoreCase("register")) {
 
             registerUser(request, response);
+        } else if (action.equalsIgnoreCase("signin")) {
+
+            loginUser(request, response);
         }
     }
 
-    private void registerUser(HttpServletRequest request, HttpServletResponse response) throws SQLException,
+    protected void registerUser(HttpServletRequest request, HttpServletResponse response) throws SQLException,
             ServletException, IOException {
 
         String fname = request.getParameter("fname");
@@ -67,7 +71,9 @@ public class UserController extends HttpServlet {
         String password = request.getParameter("password");
         String message = "";
 
-        PrintWriter out = response.getWriter();
+        // PrintWriter out = response.getWriter();
+
+        User user = new User();
 
         user.setUserfname(fname);
         user.setUserlname(lname);
@@ -80,24 +86,58 @@ public class UserController extends HttpServlet {
         message = userService.registerUser(user);
 
         if (message.equalsIgnoreCase("You have already registerd with this email")) {
-            out.print(message);
+            // out.print(message);
 
             request.setAttribute("message", message);
-            
+
             RequestDispatcher view = request.getRequestDispatcher("register.jsp");
             view.forward(request, response);
 
-        } else if(message.equalsIgnoreCase("You have registered successfully")){
-            out.println(message);
-            
-            request.setAttribute("message", message);
+        } else if (message.equalsIgnoreCase("You are successfully registered ")) {
+            // out.println(message);
 
             RequestDispatcher view = request.getRequestDispatcher("home.jsp");
             view.include(request, response);
-        }
-        
-        
 
+            request.setAttribute("message", message);
+        }
+
+    }
+
+    protected void loginUser(HttpServletRequest request, HttpServletResponse response) throws IOException,
+            SQLException, ServletException {
+
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String message = "";
+
+        // PrintWriter out = response.getWriter();
+
+        User user = new User();
+
+        user.setUseremail(email);
+        user.setUserpassword(password);
+
+        UserServicesImpl userService = new UserServicesImpl();
+        message = userService.loginUser(user);
+
+        if (message.equalsIgnoreCase("You have login successfully")) {
+            // out.println(message);
+
+            request.setAttribute("message", message);
+
+            RequestDispatcher view = request.getRequestDispatcher("dashboard.jsp");
+            view.forward(request, response);
+
+        } else if (message.equalsIgnoreCase("Email or Password is not correct")) {
+            // out.println(message);
+
+            request.setAttribute("message", message);
+
+            RequestDispatcher view = request.getRequestDispatcher("home.jsp");
+            view.forward(request, response);
+
+        }
     }
 
 }

@@ -48,7 +48,24 @@ public class UserDaoImpl implements IUserDao {
 
         pst.executeUpdate();
 
-        return "You have registered successfully";
+        return "You are successfully registered ";
+    }
+
+    public String loginUser(User user) throws SQLException {
+
+        PreparedStatement pst = connection.prepareStatement("select * from user where email=? and password=?");
+        pst.setString(1, user.getUseremail());
+        pst.setString(2, user.getUserpassword());
+
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            return "You have login successfully";
+
+        } else {
+            return "Email or Password is not correct";
+        }
+
     }
 
 }

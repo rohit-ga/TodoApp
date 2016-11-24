@@ -10,4 +10,5 @@ public interface IUserDao {
     
     public String addUser(User user) throws SQLException;
 
+    public String loginUser(User user) throws SQLException;
 }

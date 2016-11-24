@@ -22,4 +22,10 @@ public class UserServicesImpl implements IUserService {
 
     }
 
+    public String loginUser(User user) throws SQLException {
+        
+       return userDao.loginUser(user);
+        
+    }
+
 }

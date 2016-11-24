@@ -10,6 +10,8 @@
 	<div style="text-align: center;">
 		<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
 			style="float: left;" /> <br> <br> <br>
+			
+			<%= request.getAttribute("message") %>
 		<h2>Dashboard</h2>
 		
 		<!-- <div style="border: 1px solid; border-color: black; padding:5% ; width:100px; height:300px">
