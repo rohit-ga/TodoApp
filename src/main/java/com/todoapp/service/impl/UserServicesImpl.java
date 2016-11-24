@@ -1,7 +1,6 @@
 package com.todoapp.service.impl;
 
 import java.sql.SQLException;
-
 import com.todoapp.bean.User;
 import com.todoapp.dao.impl.UserDaoImpl;
 import com.todoapp.service.IUserService;
@@ -17,15 +16,21 @@ public class UserServicesImpl implements IUserService {
     }
 
     public String addUser(User user) throws SQLException {
-        
+
         return userDao.addUser(user);
 
     }
 
     public String loginUser(User user) throws SQLException {
+
+        return userDao.loginUser(user);
+
+    }
+
+    public User getUserIdByMail(String email) throws SQLException {
         
-       return userDao.loginUser(user);
-        
+        User user = userDao.getUserIdByMail(email);
+        return user;
     }
 
 }

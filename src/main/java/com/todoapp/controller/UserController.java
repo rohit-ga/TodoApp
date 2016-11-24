@@ -1,7 +1,6 @@
 package com.todoapp.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
@@ -10,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.todoapp.bean.User;
 import com.todoapp.service.impl.UserServicesImpl;
@@ -50,15 +50,17 @@ public class UserController extends HttpServlet {
 
         String action = request.getParameter("action");
 
-        System.out.println(action);
+        //System.out.println(action);
         if (action.equalsIgnoreCase("register")) {
 
             registerUser(request, response);
         } else if (action.equalsIgnoreCase("signin")) {
 
             loginUser(request, response);
-        }
+        } 
     }
+
+    
 
     protected void registerUser(HttpServletRequest request, HttpServletResponse response) throws SQLException,
             ServletException, IOException {
@@ -110,9 +112,7 @@ public class UserController extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String message = "";
-
         // PrintWriter out = response.getWriter();
-
         User user = new User();
 
         user.setUseremail(email);
@@ -125,6 +125,9 @@ public class UserController extends HttpServlet {
             // out.println(message);
 
             request.setAttribute("message", message);
+            
+            HttpSession session = request.getSession(true);
+            session.setAttribute("email", email);
 
             RequestDispatcher view = request.getRequestDispatcher("dashboard.jsp");
             view.forward(request, response);

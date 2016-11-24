@@ -10,10 +10,11 @@
 <div style="text-align: center;">
 		<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
 			style="float: left;" /> <br> <br> <br>
-			
+			<form action="TaskController?action=create" method="post">
 			Task Name:-<input type="text" name=taskname><br><br>
 			<input type="submit" value="Add"><br><br>
-						
+			
+			</form>			
 </div>	
 </body>
 </html>

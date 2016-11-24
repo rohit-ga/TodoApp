@@ -68,4 +68,21 @@ public class UserDaoImpl implements IUserDao {
 
     }
 
+    public User getUserIdByMail(String email) throws SQLException {
+        
+        PreparedStatement pst = connection.prepareStatement("select * from user where email = ?");
+        pst.setString(1, email);
+
+        ResultSet rs = pst.executeQuery();
+
+        User dbUser = new User();
+        
+        while (rs.next()) {
+
+            dbUser.setUid(rs.getInt("uid"));
+        }
+        return dbUser;
+
+    }
+
 }
