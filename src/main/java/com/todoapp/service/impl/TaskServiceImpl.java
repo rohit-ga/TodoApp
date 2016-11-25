@@ -1,8 +1,10 @@
 package com.todoapp.service.impl;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.todoapp.bean.Task;
+import com.todoapp.bean.User;
 import com.todoapp.dao.impl.TaskDaoImpl;
 import com.todoapp.service.ITaskService;
 
@@ -14,5 +16,22 @@ public class TaskServiceImpl implements ITaskService {
         taskDao.createTask(task,uid);
         
     }
+    
+    public List<Task> viewAllTasks() throws SQLException{
+        
+        TaskDaoImpl taskDao = new TaskDaoImpl();
+        List<Task> taskList = taskDao.viewAllTask();
+        
+        return taskList;
+    }
+
+    public List<Task> getTaskByUserId(int uid) throws SQLException {
+        
+        TaskDaoImpl taskDao = new TaskDaoImpl();
+        List<Task> myTaskList = taskDao.getTaskByUserId(uid);
+        return myTaskList;
+    }
+    
+   
 
 }

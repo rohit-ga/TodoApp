@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import com.todoapp.bean.User;
 import com.todoapp.dao.IUserDao;
 import com.todoapp.util.DatabaseConnection;
@@ -84,5 +85,7 @@ public class UserDaoImpl implements IUserDao {
         return dbUser;
 
     }
+
+    
 
 }

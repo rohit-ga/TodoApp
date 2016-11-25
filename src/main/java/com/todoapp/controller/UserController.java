@@ -2,6 +2,8 @@ package com.todoapp.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.todoapp.bean.Task;
 import com.todoapp.bean.User;
+import com.todoapp.service.impl.TaskServiceImpl;
 import com.todoapp.service.impl.UserServicesImpl;
 
 @WebServlet("/UserController")
@@ -128,10 +132,35 @@ public class UserController extends HttpServlet {
             
             HttpSession session = request.getSession(true);
             session.setAttribute("email", email);
+            
+            List<Task> taskList = new ArrayList<Task>();
 
+            TaskServiceImpl taskService = new TaskServiceImpl();
+            taskList = taskService.viewAllTasks();
+
+            
+            int allTask = taskList.size();
+            
+            System.out.println("AllTask:::" + allTask);
+            
+            request.setAttribute("allTask", allTask);
+            
+            
+            User dbuser = userService.getUserIdByMail(email);
+            
+            taskList = taskService.getTaskByUserId(dbuser.getUid());
+            
+            int mytask = taskList.size();
+            System.out.println("mytask:::"+mytask);
+            
+            request.setAttribute("mytask", mytask);
+          
             RequestDispatcher view = request.getRequestDispatcher("dashboard.jsp");
             view.forward(request, response);
-
+            
+            
+            
+            
         } else if (message.equalsIgnoreCase("Email or Password is not correct")) {
             // out.println(message);
 
