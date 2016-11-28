@@ -30,7 +30,7 @@
 		</form>
 	</div>
 
-	<a href="dashboard.jsp">Dashboard</a>
+	<a href="TaskController?action=dashboard">Dashboard</a>
 	<br>
 	<br>
 	<a href="TaskController?action=mytasks">My Tasks</a>

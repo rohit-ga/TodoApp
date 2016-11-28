@@ -64,7 +64,37 @@ public class TaskController extends HttpServlet {
         } else if (action.equalsIgnoreCase("mytasks")) {
 
             getMyTask(request, response);
+        } else if (action.equalsIgnoreCase("dashboard")) {
+            
+            taskCount(request,response);
         }
+    }
+
+    private void taskCount(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        
+        HttpSession session = request.getSession(true);
+        String email = (String) session.getAttribute("email");
+        
+        List<Task> taskList = new ArrayList<Task>();
+        
+        TaskServiceImpl taskService = new TaskServiceImpl();
+        taskList = taskService.viewAllTasks();
+
+        int allTask = taskList.size();
+        
+        request.setAttribute("allTask", allTask);
+
+        User dbuser = userServices.getUserIdByMail(email);
+
+        taskList = taskService.getTaskByUserId(dbuser.getUid());
+
+        int mytask = taskList.size();
+
+        request.setAttribute("mytask", mytask);
+
+        RequestDispatcher view = request.getRequestDispatcher("dashboard.jsp");
+        view.forward(request, response);
+        
     }
 
     private List<Task> getMyTask(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {

@@ -29,6 +29,6 @@
 			</c:forEach>
 		</TABLE>
 	</div>
-	<a href="dashboard.jsp">Dashboard Page</a>
+	<a href="TaskController?action=dashboard">Dashboard Page</a>
 </body>
 </html>
