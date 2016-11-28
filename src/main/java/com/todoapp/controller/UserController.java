@@ -54,17 +54,15 @@ public class UserController extends HttpServlet {
 
         String action = request.getParameter("action");
 
-        //System.out.println(action);
+        // System.out.println(action);
         if (action.equalsIgnoreCase("register")) {
 
             registerUser(request, response);
         } else if (action.equalsIgnoreCase("signin")) {
 
             loginUser(request, response);
-        } 
+        }
     }
-
-    
 
     protected void registerUser(HttpServletRequest request, HttpServletResponse response) throws SQLException,
             ServletException, IOException {
@@ -129,38 +127,33 @@ public class UserController extends HttpServlet {
             // out.println(message);
 
             request.setAttribute("message", message);
-            
+
             HttpSession session = request.getSession(true);
             session.setAttribute("email", email);
-            
+
             List<Task> taskList = new ArrayList<Task>();
 
             TaskServiceImpl taskService = new TaskServiceImpl();
             taskList = taskService.viewAllTasks();
 
-            
             int allTask = taskList.size();
-            
-            System.out.println("AllTask:::" + allTask);
-            
+
+            // System.out.println("AllTask:::" + allTask);
+
             request.setAttribute("allTask", allTask);
-            
-            
+
             User dbuser = userService.getUserIdByMail(email);
-            
+
             taskList = taskService.getTaskByUserId(dbuser.getUid());
-            
+
             int mytask = taskList.size();
-            System.out.println("mytask:::"+mytask);
-            
+            // System.out.println("mytask:::" + mytask);
+
             request.setAttribute("mytask", mytask);
-          
+
             RequestDispatcher view = request.getRequestDispatcher("dashboard.jsp");
             view.forward(request, response);
-            
-            
-            
-            
+
         } else if (message.equalsIgnoreCase("Email or Password is not correct")) {
             // out.println(message);
 

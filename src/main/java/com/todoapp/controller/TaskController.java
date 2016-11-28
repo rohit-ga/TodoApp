@@ -52,22 +52,40 @@ public class TaskController extends HttpServlet {
 
     protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws SQLException,
             ServletException, IOException {
-        // System.out.println("In do process::");
+        
         String action = request.getParameter("action");
 
         if (action.equalsIgnoreCase("create")) {
 
             createTask(request, response);
         } else if (action.equalsIgnoreCase("alltasks")) {
-            // System.out.println("in all tasks action::");
+            
             viewAllTask(request, response);
-        } /*else if (action.equalsIgnoreCase("dashboard")) {
+        } else if (action.equalsIgnoreCase("mytasks")) {
 
-            allTaskSize(request, response);
-        } else if (action.equalsIgnoreCase("dashboard")) {
+            getMyTask(request, response);
+        }
+    }
 
-            myTaskSize(request, response);
-        }*/
+    private List<Task> getMyTask(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        
+        List<Task> taskList = new ArrayList<Task>();
+
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("email");
+
+        User dbuser = userServices.getUserIdByMail(email);
+        
+        TaskServiceImpl taskService = new TaskServiceImpl();
+        
+        taskList = taskService.getTaskByUserId(dbuser.getUid());
+        
+        request.setAttribute("taskList", taskList);
+
+        RequestDispatcher view = request.getRequestDispatcher("mytask.jsp");
+        view.forward(request, response);
+
+        return taskList; 
     }
 
     private void createTask(HttpServletRequest request, HttpServletResponse response) throws SQLException,
@@ -87,14 +105,20 @@ public class TaskController extends HttpServlet {
 
         TaskServiceImpl taskService = new TaskServiceImpl();
         taskService.createTask(task, user.getUid());
+        
+        List<Task> taskList = taskService.getTaskByUserId(user.getUid());
+        
+        //System.out.println("In createTask of task controller method::" + taskList);
+        
+        request.setAttribute("taskList", taskList);
 
-        RequestDispatcher view = request.getRequestDispatcher("createtask.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("mytask.jsp");
         view.forward(request, response);
     }
 
     private List<Task> viewAllTask(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException, SQLException {
-        // System.out.println("In viewAllTask method of controller");
+        
         List<Task> taskList = new ArrayList<Task>();
 
         TaskServiceImpl taskService = new TaskServiceImpl();
@@ -109,39 +133,4 @@ public class TaskController extends HttpServlet {
 
     }
 
-    /*private int allTaskSize(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException, SQLException {
-
-        List<Task> taskList = new ArrayList<Task>();
-
-        TaskServiceImpl taskService = new TaskServiceImpl();
-        taskList = taskService.viewAllTasks();
-
-        int listCount = taskList.size();
-
-        request.setAttribute("listCount", listCount);
-
-        RequestDispatcher view = request.getRequestDispatcher("dashboard.jsp");
-        view.forward(request, response);
-
-        return listCount;
-    }*/
-
-    /*private int myTaskSize(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException, SQLException {
-
-        List<Task> taskList = new ArrayList<Task>();
-
-        TaskServiceImpl taskService = new TaskServiceImpl();
-        taskList = taskService.viewAllTasks();
-
-        int listCount = taskList.size();
-          System.out.println(listCount);
-        request.setAttribute("listCount", listCount);
-
-        RequestDispatcher view = request.getRequestDispatcher("dashboard.jsp");
-        view.forward(request, response);
-
-        return listCount;
-    }*/
 }

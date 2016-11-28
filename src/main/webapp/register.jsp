@@ -11,7 +11,15 @@
 	<div style="text-align: center;">
 		<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
 			style="float: left;" /> <br> <br> <br>
-			<%= request.getAttribute("message") %>
+
+		<%
+		    if (request.getAttribute("message") == null) {
+
+		    } else {
+		        out.print(request.getAttribute("message"));
+		    }
+		%>
+
 		<h2>Registration Form</h2>
 		<form action="UserController?action=register" method="post">
 			First Name:-<br> <input type="text" name="fname"><br>
@@ -21,10 +29,8 @@
 			Contact:-<br> <input type="text" name="contact"><br>
 			Email:-<br> <input type="text" name="email"><br>
 			Password:-<br> <input type="password" name="password"><br>
-			<br> <input type="submit" value="Register"><br>
-			<br> <a href="dashboard.jsp">Dashboard Page</a><br>
-			<br> <a href="home.jsp">Home Page</a><br>
-			<br>
+			<br> <input type="submit" value="Register"><br> <br>
+			<a href="home.jsp">Home Page</a><br> <br>
 		</form>
 	</div>
 </body>

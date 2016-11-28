@@ -19,13 +19,13 @@
 	<div style="text-align: center;">
 		<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
 			style="float: left" /><br> <br> <br>
-	<%
-	    if (request.getAttribute("message") == null) {
+		<%
+		    if (request.getAttribute("message") == null) {
 
-	    } else {
-	        out.print(request.getAttribute("message"));
-	    }
-	%>
+		    } else {
+		        out.print(request.getAttribute("message"));
+		    }
+		%>
 
 		<h2>Home page</h2>
 	</div>

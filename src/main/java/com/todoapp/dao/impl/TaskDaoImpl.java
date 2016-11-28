@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.todoapp.bean.Task;
-import com.todoapp.bean.User;
 import com.todoapp.dao.ITaskDao;
 import com.todoapp.util.DatabaseConnection;
 
@@ -60,7 +59,7 @@ public class TaskDaoImpl implements ITaskDao {
     }
 
     public List<Task> getTaskByUserId(int uid) throws SQLException {
-        
+
         PreparedStatement pst = connection.prepareStatement("select * from taskdetails where uid = ?");
         pst.setInt(1, uid);
 
@@ -79,7 +78,7 @@ public class TaskDaoImpl implements ITaskDao {
             taskList.add(dbTask);
         }
         return taskList;
-        
+
     }
 
 }
