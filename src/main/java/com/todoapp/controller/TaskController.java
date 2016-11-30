@@ -67,6 +67,9 @@ public class TaskController extends HttpServlet {
         } else if (action.equalsIgnoreCase("dashboard")) {
             
             taskCount(request,response);
+        }else if (action.equalsIgnoreCase("success")) {
+            System.out.println("I am invoked");
+            taskCount(request,response);
         }
     }
 

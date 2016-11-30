@@ -131,7 +131,7 @@ public class UserController extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("email", email);
 
-            List<Task> taskList = new ArrayList<Task>();
+          /*  List<Task> taskList = new ArrayList<Task>();
 
             TaskServiceImpl taskService = new TaskServiceImpl();
             taskList = taskService.viewAllTasks();
@@ -149,10 +149,12 @@ public class UserController extends HttpServlet {
             int mytask = taskList.size();
             // System.out.println("mytask:::" + mytask);
 
-            request.setAttribute("mytask", mytask);
+            request.setAttribute("mytask", mytask);*/
 
-            RequestDispatcher view = request.getRequestDispatcher("dashboard.jsp");
-            view.forward(request, response);
+//            RequestDispatcher view = request.getRequestDispatcher("dashboard.jsp");
+//            view.forward(request, response);
+            
+            response.sendRedirect(request.getContextPath()+"/TaskController?action=success");
 
         } else if (message.equalsIgnoreCase("Email or Password is not correct")) {
             // out.println(message);
