@@ -7,13 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.todoapp.bean.Task;
 import com.todoapp.dao.ITaskDao;
+import com.todoapp.model.Task;
 import com.todoapp.util.DatabaseConnection;
 
 public class TaskDaoImpl implements ITaskDao {
 
     static Connection connection;
+    List<Task> allTaskList = new ArrayList<Task>();
+    List<Task> myTaskList = new ArrayList<Task>();
 
     {
         try {
@@ -23,15 +25,13 @@ public class TaskDaoImpl implements ITaskDao {
         }
     }
 
-    public void createTask(Task task, int uid) throws SQLException {
+    public void createTask(Task task, int dbUser) throws SQLException {
 
         PreparedStatement pst = connection.prepareStatement("insert into taskdetails values(?,?,?,?)");
-
         pst.setInt(1, task.getTaskId());
         pst.setString(2, task.getTaskName());
         pst.setDate(3, new java.sql.Date(task.getTaskCreationDate().getTime()));
-        pst.setInt(4, uid);
-
+        pst.setInt(4, dbUser);
         pst.executeUpdate();
     }
 
@@ -40,45 +40,43 @@ public class TaskDaoImpl implements ITaskDao {
         PreparedStatement pst = connection.prepareStatement("select * from taskdetails ");
 
         ResultSet rs = pst.executeQuery();
-
-        List<Task> taskList = new ArrayList<Task>();
-
         while (rs.next()) {
 
             Task dbTask = new Task();
-
             dbTask.setTaskId(rs.getInt("taskid"));
             dbTask.setTaskName(rs.getString("taskname"));
             dbTask.setTaskCreationDate(rs.getDate("task_creationdate"));
-
-            taskList.add(dbTask);
+            allTaskList.add(dbTask);
         }
-
-        return taskList;
-
+        return allTaskList;
     }
 
-    public List<Task> getTaskByUserId(int uid) throws SQLException {
+    public List<Task> getTaskByUserId(int dbUser) throws SQLException {
 
         PreparedStatement pst = connection.prepareStatement("select * from taskdetails where uid = ?");
-        pst.setInt(1, uid);
+        pst.setInt(1, dbUser);
 
         ResultSet rs = pst.executeQuery();
-
-        List<Task> taskList = new ArrayList<Task>();
-
         while (rs.next()) {
 
             Task dbTask = new Task();
-
             dbTask.setTaskId(rs.getInt("taskid"));
             dbTask.setTaskName(rs.getString("taskname"));
             dbTask.setTaskCreationDate(rs.getDate("task_creationdate"));
-
-            taskList.add(dbTask);
+            myTaskList.add(dbTask);
         }
-        return taskList;
-
+        return myTaskList;
     }
 
+    public Task getTaskNameById(int taskid) throws SQLException {
+        PreparedStatement pst = connection.prepareStatement("select taskname from taskdetails where taskid=?");
+        pst.setInt(1, taskid);
+
+        Task dbTaskName = new Task();
+        ResultSet rs = pst.executeQuery();
+        while (rs.next()) {
+            dbTaskName.setTaskName(rs.getString("taskname"));
+        }
+        return dbTaskName;
+    }
 }

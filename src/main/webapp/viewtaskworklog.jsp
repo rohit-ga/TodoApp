@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>My Tasks</title>
+<title>View MyTask Worklogs</title>
 </head>
 <body>
 	<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
@@ -14,10 +14,10 @@
 	<br>
 	<br>
 	<br>
-	<a href="TaskController?action=dashboard">Go to Dashboard</a>
-	<br>
+	<a href="TaskController?action=mytasks">My Tasks List</a>
 	<br>
 	<a href="UserController?action=logout">Logout</a>
+	<br>
 	<%
 	    response.setHeader("Cache-Control", "no-cache");
 	    response.setHeader("Cache-Control", "no-store");
@@ -27,30 +27,23 @@
 	        response.sendRedirect("home.jsp");
 	%>
 	<div style="text-align: center;">
-
-		<h2>My Tasks</h2>
-		<form method="get">
-			<a href="createtask.jsp">create task</a><br> <br>
-
-			<TABLE BORDER="1" align="center">
-				<TR>
-					<TH>Task Id</TH>
-					<TH>Task Name</TH>
-					<TH>Task Creation Date</TH>
-					<th>views</th>
-				</TR>
-
-				<c:forEach items="${myTaskList}" var="myTaskList">
-					<tr>
-						<td><c:out value="${myTaskList.taskId}" /></td>
-						<td><c:out value="${myTaskList.taskName}" /></td>
-						<td><c:out value="${myTaskList.taskCreationDate}" /></td>
-						<td><a
-							href="UserTaskController?action=view&taskId=<c:out value="${myTaskList.taskId}"/>">View
-								Worklogs</a></td>
-				</c:forEach>
-			</TABLE>
-		</form>
+		<h2>Worklog Details</h2>
+		<h4>Task Name:-${taskName}</h4>
+		<TABLE border="1" align="center">
+			<TR>
+				<TH>User Name</TH>
+				<TH>Start Time</TH>
+				<TH>End Time</TH>
+				<TH>Worklog Description</TH>
+			</TR>
+			<c:forEach items="${worklogs}" var="worklogs">
+				<tr>
+					<td><c:out value="${worklogs.userFname}" /></td>
+					<td><c:out value="${worklogs.startTime}" /></td>
+					<td><c:out value="${worklogs.endTime}" /></td>
+					<td><c:out value="${worklogs.description}" /></td>
+			</c:forEach>
+		</TABLE>
 	</div>
 </body>
 </html>

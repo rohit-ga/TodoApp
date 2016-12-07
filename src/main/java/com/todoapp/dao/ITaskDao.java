@@ -3,7 +3,7 @@ package com.todoapp.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.todoapp.bean.Task;
+import com.todoapp.model.Task;
 
 public interface ITaskDao {
 

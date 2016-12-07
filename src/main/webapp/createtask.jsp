@@ -10,12 +10,31 @@
 	<div style="text-align: center;">
 		<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
 			style="float: left;" /> <br> <br> <br>
-		<form action="TaskController?action=create" method="post">
-			Task Name:-<input type="text" name=taskname><br>
-			<br> <input type="submit" value="Add"><br>
-			<br>
+		<%
+		    if (request.getAttribute("message") == null) {
 
+		    } else {
+		        out.print(request.getAttribute("message"));
+		    }
+		%>
+		<form action="TaskController?action=create" method="post">
+			<br> <br>Task Name:- <input type="text" name=taskname
+				required><br> <br> <input type="submit"
+				value="Create">
 		</form>
+		<form action="TaskController?action=back">
+			<input type="button" value="Back"><br>
+			<br>
+		</form>
+		<a href="UserController?action=logout">Logout</a>
+		<%
+		    response.setHeader("Cache-Control", "no-cache");
+		    response.setHeader("Cache-Control", "no-store");
+		    response.setHeader("Pragma", "no-cache");
+		    response.setDateHeader("Expires", 0);
+		    if (session.getAttribute("email") == null)
+		        response.sendRedirect("home.jsp");
+		%>
 	</div>
 </body>
 </html>

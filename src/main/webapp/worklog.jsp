@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>My Tasks</title>
+<title>Add Your Worklog</title>
 </head>
 <body>
 	<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
@@ -14,10 +13,8 @@
 	<br>
 	<br>
 	<br>
-	<a href="TaskController?action=dashboard">Go to Dashboard</a>
-	<br>
-	<br>
 	<a href="UserController?action=logout">Logout</a>
+	<br>
 	<%
 	    response.setHeader("Cache-Control", "no-cache");
 	    response.setHeader("Cache-Control", "no-store");
@@ -28,28 +25,16 @@
 	%>
 	<div style="text-align: center;">
 
-		<h2>My Tasks</h2>
-		<form method="get">
-			<a href="createtask.jsp">create task</a><br> <br>
-
-			<TABLE BORDER="1" align="center">
-				<TR>
-					<TH>Task Id</TH>
-					<TH>Task Name</TH>
-					<TH>Task Creation Date</TH>
-					<th>views</th>
-				</TR>
-
-				<c:forEach items="${myTaskList}" var="myTaskList">
-					<tr>
-						<td><c:out value="${myTaskList.taskId}" /></td>
-						<td><c:out value="${myTaskList.taskName}" /></td>
-						<td><c:out value="${myTaskList.taskCreationDate}" /></td>
-						<td><a
-							href="UserTaskController?action=view&taskId=<c:out value="${myTaskList.taskId}"/>">View
-								Worklogs</a></td>
-				</c:forEach>
-			</TABLE>
+		<h3>Add Worklog Here</h3>
+		<br>
+		<form method="post" action="UserTaskController?action=worklog">
+			Task Id:- <input type="text" name="taskId" value="${taskId}"
+				readonly="readonly"><br> <br> Start Time:- <input
+				type="datetime-local" name="startTime" value="2000-01-01 00:00"><br>
+			<br> End Time:- <input type="datetime-local" name="endTime"
+				value="2000-01-01 00:00"><br> <br> Log
+			Description:- <input type="text" name="description"><br>
+			<br> <input type="submit" value="Save"><br> <br>
 		</form>
 	</div>
 </body>

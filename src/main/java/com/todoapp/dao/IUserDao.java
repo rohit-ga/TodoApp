@@ -2,7 +2,7 @@ package com.todoapp.dao;
 
 import java.sql.SQLException;
 
-import com.todoapp.bean.User;
+import com.todoapp.model.User;
 
 public interface IUserDao {
 
