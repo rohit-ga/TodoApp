@@ -7,9 +7,9 @@ import com.todoapp.model.Task;
 
 public interface ITaskDao {
 
-    public void createTask(Task task, int uid) throws SQLException;
+    public void createTask(String taskName, int userId) throws SQLException;
 
     public List<Task> viewAllTask() throws SQLException;
 
-    public List<Task> getTaskByUserId(int uid) throws SQLException;
+    public List<Task> getTaskByUserId(int userId) throws SQLException;
 }

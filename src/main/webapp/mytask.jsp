@@ -27,7 +27,6 @@
 	        response.sendRedirect("home.jsp");
 	%>
 	<div style="text-align: center;">
-
 		<h2>My Tasks</h2>
 		<form method="get">
 			<a href="createtask.jsp">create task</a><br> <br>
@@ -39,7 +38,6 @@
 					<TH>Task Creation Date</TH>
 					<th>views</th>
 				</TR>
-
 				<c:forEach items="${myTaskList}" var="myTaskList">
 					<tr>
 						<td><c:out value="${myTaskList.taskId}" /></td>

@@ -26,12 +26,11 @@ public class UserTaskController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    RequestDispatcher view;
     UserTask userTask = new UserTask();
     UserTaskServiceImpl userTaskService = new UserTaskServiceImpl();
     UserServiceImpl userService = new UserServiceImpl();
     TaskServiceImpl taskService = new TaskServiceImpl();
-    User user = new User();
-    Task task = new Task();
     List<Task> allTaskList = new ArrayList<Task>();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -55,38 +54,42 @@ public class UserTaskController extends HttpServlet {
             IOException, SQLException {
 
         String action = request.getParameter("action");
-        System.out.println("Action in UserTaskController::::" + action);
+        
         if (action.equals("worklog")) {
             addWorklog(request, response);
+            
         } else if (action.equals("view")) {
             checkWorklogsOnMyTask(request, response);
-        }
+            
+        } 
     }
 
     private void checkWorklogsOnMyTask(HttpServletRequest request, HttpServletResponse response) throws SQLException,
             ServletException, IOException {
-        
+//      To check all work logs on tasks that created by logged user
         HttpSession session = request.getSession();
         session.getAttribute("email");
 
         Integer taskId = Integer.parseInt(request.getParameter("taskId"));
+        
+//      getting taskname by taskid from taskdetails table
         Task dbTaskName = taskService.getTaskNameById(taskId);
                
         List<UserTaskDto> worklogs = userTaskService.checkWorklogsOnMyTask(taskId);
         request.setAttribute("worklogs", worklogs);
         request.setAttribute("taskName", dbTaskName.getTaskName());
 
-        RequestDispatcher view = request.getRequestDispatcher("viewtaskworklog.jsp");
-        view.include(request, response);
+        request.getRequestDispatcher("viewtaskworklog.jsp").include(request, response);
     }
 
     private void addWorklog(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException, SQLException {
-
+//      To add worklogs on any tasks
         HttpSession session = request.getSession();
-        String email = (String) session.getAttribute("email");
-
-        User dbUser = userService.getUserIdByMail(email);
+        
+//      getting userId by mail from user table
+        User dbUser = userService.getUserIdByMail((String) session.getAttribute("email"));
+        
         Integer taskId = Integer.parseInt(request.getParameter("taskId"));
 
         String startTime = request.getParameter("startTime");
@@ -97,11 +100,8 @@ public class UserTaskController extends HttpServlet {
         userTask.setDescription(description);
 
         userTaskService.addWorklog(userTask, taskId, dbUser.getUserId());
+        request.setAttribute("allTaskList", taskService.viewAllTasks());
 
-        allTaskList = taskService.viewAllTasks();
-        request.setAttribute("allTaskList", allTaskList);
-
-        RequestDispatcher view = request.getRequestDispatcher("alltask.jsp");
-        view.forward(request, response);
+        request.getRequestDispatcher("alltask.jsp").forward(request, response);
     }
 }

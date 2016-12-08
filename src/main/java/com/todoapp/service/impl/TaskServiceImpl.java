@@ -1,7 +1,6 @@
 package com.todoapp.service.impl;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.todoapp.dao.impl.TaskDaoImpl;
@@ -11,25 +10,20 @@ import com.todoapp.service.ITaskService;
 public class TaskServiceImpl implements ITaskService {
 
     TaskDaoImpl taskDao = new TaskDaoImpl();
-    List<Task> allTaskList = new ArrayList<Task>();
-    List<Task> myTaskList = new ArrayList<Task>();
 
-    public void createTask(Task task, int dbUser) throws SQLException {
-        taskDao.createTask(task, dbUser);
+    public void createTask(String taskName, int dbUser) throws SQLException {
+        taskDao.createTask(taskName, dbUser);
     }
 
     public List<Task> viewAllTasks() throws SQLException {
-        allTaskList = taskDao.viewAllTask();
-        return allTaskList;
+        return taskDao.viewAllTask();
     }
 
     public List<Task> getTaskByUserId(int dbUser) throws SQLException {
-        myTaskList = taskDao.getTaskByUserId(dbUser);
-        return myTaskList;
+        return taskDao.getTaskByUserId(dbUser);
     }
-    
-    public Task getTaskNameById(int taskid) throws SQLException {
-        Task dbTaskName = taskDao.getTaskNameById(taskid);
-        return dbTaskName;
+
+    public Task getTaskNameById(int taskId) throws SQLException {
+        return taskDao.getTaskNameById(taskId);
     }
 }

@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import com.todoapp.dao.IUserDao;
 import com.todoapp.model.User;
-import com.todoapp.model.UserRole;
 import com.todoapp.util.DatabaseConnection;
 
 public class UserDaoImpl implements IUserDao {
@@ -22,44 +21,46 @@ public class UserDaoImpl implements IUserDao {
         }
     }
 
-    public String registerUser(User user) throws SQLException {
+    public boolean registerUser(User user) throws SQLException {
 
         PreparedStatement pst = connection.prepareStatement("select * from user where email = ?");
         pst.setString(1, user.getUserEmail());
 
         ResultSet rs = pst.executeQuery();
         if (rs.next()) {
-            return "You have already registerd with this email";
+            return false;
         } else {
             return addUser(user);
         }
     }
 
-    public String addUser(User user) throws SQLException {
+    public boolean addUser(User user) throws SQLException {
 
-        PreparedStatement pst = connection.prepareStatement("insert into user values(?,?,?,?,?,?,?)");
-        pst.setInt(1, user.getUserId());
+        PreparedStatement pst = connection.prepareStatement("insert into user values(?,?,?,?,?,?,?,?)");
+        pst.setInt(1, 0);
         pst.setString(2, user.getUserFname());
         pst.setString(3, user.getUserLname());
         pst.setString(4, user.getUserGender());
         pst.setString(5, user.getUserContact());
         pst.setString(6, user.getUserEmail());
         pst.setString(7, user.getUserPassword());
+        pst.setInt(8, user.getRoleId());
+        
         pst.executeUpdate();
-        return "You are successfully registered ";
+        return true;
     }
 
-    public String loginUser(User user) throws SQLException {
+    public boolean loginUser(String email, String password) throws SQLException {
 
         PreparedStatement pst = connection.prepareStatement("select * from user where email=? and password=?");
-        pst.setString(1, user.getUserEmail());
-        pst.setString(2, user.getUserPassword());
+        pst.setString(1, email);
+        pst.setString(2, password);
 
         ResultSet rs = pst.executeQuery();
         if (rs.next()) {
-            return "You have login successfully";
+            return true;
         } else {
-            return "Email or Password is not correct";
+            return false;
         }
     }
 
@@ -72,6 +73,12 @@ public class UserDaoImpl implements IUserDao {
         User dbUser = new User();
         while (rs.next()) {
             dbUser.setUserId(rs.getInt("uid"));
+            /*dbUser.setUserFname(rs.getString("firstname"));
+            dbUser.setUserLname(rs.getString("lastname"));
+            dbUser.setUserEmail(rs.getString("email"));
+            dbUser.setUserPassword(rs.getString("password"));
+            dbUser.setUserContact(rs.getString("contact"));*/
+            dbUser.setRoleId(rs.getInt("roleid"));
         }
         return dbUser;
     }
@@ -79,30 +86,11 @@ public class UserDaoImpl implements IUserDao {
     public User getUserFname() throws SQLException {
 
         PreparedStatement pst = connection.prepareStatement("select firstname from user");
-        //pst.setString(1, email);
-
         ResultSet rs = pst.executeQuery();
         User dbUserFname = new User();
         while (rs.next()) {
             dbUserFname.setUserFname(rs.getString("firstname"));
         }
         return dbUserFname;
-    }
-
-    public UserRole authenticateUser(User user) throws SQLException {
-        
-        PreparedStatement pst = connection.prepareStatement("select * from user where email=? and password=?");
-        pst.setString(1, user.getUserEmail());
-        pst.setString(2, user.getUserPassword());
-        
-        ResultSet rs = pst.executeQuery();
-        UserRole dbRole = new UserRole();
-        if (rs.next()){
-            dbRole.getRoleId();
-            System.out.println("dbRole:::" + dbRole);
-            return dbRole;
-        } else {
-            return null;
-        }
     }
 }

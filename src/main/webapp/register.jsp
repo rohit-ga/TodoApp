@@ -18,13 +18,14 @@
 		%>
 		<h2>Registration Form</h2>
 		<form action="UserController?action=register" method="post">
-			First Name:-<br> <input type="text" name="fname"><br>
-			Last Name:-<br> <input type="text" name="lname"><br>
+			First Name:-<br> <input type="text" name="fName"><br>
+			Last Name:-<br> <input type="text" name="lName"><br>
 			Gender:-<input type="radio" name="sex" value="male" checked>Male
 			<input type="radio" name="sex" value="female">Female<br>
 			Contact:-<br> <input type="tel" name="contact" required min="10" max="10"><br>
 			Email:-<br> <input type="email" name="email"><br>
 			Password:-<br> <input type="password" name="password" ><br>
+			<input type="hidden" name = "roleId" value="2">
 			<br> <input type="submit" value="Register"><br> <br>
 			<a href="home.jsp">Home Page</a><br> <br>
 		</form>

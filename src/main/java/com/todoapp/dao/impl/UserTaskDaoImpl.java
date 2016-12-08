@@ -28,13 +28,12 @@ public class UserTaskDaoImpl implements IUserTaskDao {
 
     public void addWorklog(UserTask userTask, int taskId, int userId) throws SQLException {
 
-        PreparedStatement pst = connection.prepareStatement("insert into user_task values(?,?,?,?,?,?)");
+        PreparedStatement pst = connection.prepareStatement("insert into user_task values(?,?,?,?,?)");
         pst.setInt(1, userId);
         pst.setInt(2, taskId);
         pst.setString(3, userTask.getStartTime());
         pst.setString(4, userTask.getEndTime());
         pst.setString(5, userTask.getDescription());
-        pst.setInt(6, userTask.getUserTaskId());
         pst.executeUpdate();
 
     }
@@ -44,8 +43,8 @@ public class UserTaskDaoImpl implements IUserTaskDao {
         PreparedStatement pst = connection
                 .prepareStatement("select firstname,start_time,end_time,description from user_task join user on user.uid = user_task.uid where taskid=?");
         pst.setInt(1, taskId);
+        
         ResultSet rs = pst.executeQuery();
-
         while (rs.next()) {
             UserTaskDto dbUserTaskDto = new UserTaskDto();
             dbUserTaskDto.setUserFname(rs.getString("firstname"));

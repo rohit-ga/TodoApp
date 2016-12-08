@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.todoapp.dao.ITaskDao;
@@ -25,23 +26,22 @@ public class TaskDaoImpl implements ITaskDao {
         }
     }
 
-    public void createTask(Task task, int dbUser) throws SQLException {
+    public void createTask(String taskName, int dbUser) throws SQLException {
 
         PreparedStatement pst = connection.prepareStatement("insert into taskdetails values(?,?,?,?)");
-        pst.setInt(1, task.getTaskId());
-        pst.setString(2, task.getTaskName());
-        pst.setDate(3, new java.sql.Date(task.getTaskCreationDate().getTime()));
+        pst.setInt(1, 0);
+        pst.setString(2, taskName);
+        pst.setDate(3, new java.sql.Date(new Date().getTime()));
         pst.setInt(4, dbUser);
         pst.executeUpdate();
     }
 
     public List<Task> viewAllTask() throws SQLException {
 
-        PreparedStatement pst = connection.prepareStatement("select * from taskdetails ");
+        PreparedStatement pst = connection.prepareStatement("select * from taskdetails");
 
         ResultSet rs = pst.executeQuery();
         while (rs.next()) {
-
             Task dbTask = new Task();
             dbTask.setTaskId(rs.getInt("taskid"));
             dbTask.setTaskName(rs.getString("taskname"));
@@ -58,7 +58,6 @@ public class TaskDaoImpl implements ITaskDao {
 
         ResultSet rs = pst.executeQuery();
         while (rs.next()) {
-
             Task dbTask = new Task();
             dbTask.setTaskId(rs.getInt("taskid"));
             dbTask.setTaskName(rs.getString("taskname"));
@@ -68,11 +67,12 @@ public class TaskDaoImpl implements ITaskDao {
         return myTaskList;
     }
 
-    public Task getTaskNameById(int taskid) throws SQLException {
+    public Task getTaskNameById(int taskId) throws SQLException {
         PreparedStatement pst = connection.prepareStatement("select taskname from taskdetails where taskid=?");
-        pst.setInt(1, taskid);
+        pst.setInt(1, taskId);
 
         Task dbTaskName = new Task();
+
         ResultSet rs = pst.executeQuery();
         while (rs.next()) {
             dbTaskName.setTaskName(rs.getString("taskname"));

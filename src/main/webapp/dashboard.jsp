@@ -35,7 +35,8 @@
 	<br>
 	<a href="UserController?action=logout">Logout</a>
 	<br>
-	<br><%
+	<br>
+	<%
 	    response.setHeader("Cache-Control", "no-cache");
 	    response.setHeader("Cache-Control", "no-store");
 	    response.setHeader("Pragma", "no-cache");

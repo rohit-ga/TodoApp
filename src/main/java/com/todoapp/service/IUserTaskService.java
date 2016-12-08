@@ -10,5 +10,5 @@ public interface IUserTaskService {
 
     public void addWorklog(UserTask userTask, int taskId, int userId) throws SQLException;
     
-    public List<UserTaskDto> checkWorklogsOnMyTask(int taskID) throws SQLException;
+    public List<UserTaskDto> checkWorklogsOnMyTask(int taskId) throws SQLException;
 }

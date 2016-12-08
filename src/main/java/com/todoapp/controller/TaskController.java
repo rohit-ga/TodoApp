@@ -23,14 +23,15 @@ import com.todoapp.service.impl.UserServiceImpl;
 public class TaskController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    User user = new User();
+    RequestDispatcher view;
     UserServiceImpl userService = new UserServiceImpl();
     TaskServiceImpl taskService = new TaskServiceImpl();
+
     List<Task> allTaskList = new ArrayList<Task>();
     List<Task> myTaskList = new ArrayList<Task>();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       
+
         try {
             doProcess(request, response);
         } catch (SQLException e) {
@@ -51,110 +52,100 @@ public class TaskController extends HttpServlet {
             ServletException, IOException {
 
         String action = request.getParameter("action");
-        System.out.println("action of task controller:::" + action);
+
         if (action.equals("create")) {
             createTask(request, response);
+
         } else if (action.equals("alltasks")) {
             viewAllTask(request, response);
+
         } else if (action.equals("mytasks")) {
             getMyTask(request, response);
+
         } else if (action.equals("dashboard")) {
             taskCount(request, response);
+
         } else if (action.equals("add")) {
             redirectToWorklogPage(request, response);
-        } 
+
+        } else if (action.equals("getalltasks")) {
+            viewAllTask(request, response);
+
+        }
     }
 
-    private void redirectToWorklogPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        
+    private void redirectToWorklogPage(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+
         HttpSession session = request.getSession(true);
         String email = (String) session.getAttribute("email");
-        
-        if(email == null){
-            RequestDispatcher view = request.getRequestDispatcher("home.jsp");
-            view.forward(request, response);
+
+        if (email == null) {
+            request.getRequestDispatcher("home.jsp").forward(request, response);
+            ;
         } else {
-            //request.getParameter("taskId");
             request.setAttribute("taskId", request.getParameter("taskId"));
-            RequestDispatcher view = request.getRequestDispatcher("worklog.jsp");
-            view.forward(request, response);
+            request.getRequestDispatcher("worklog.jsp").forward(request, response);
         }
     }
 
     private void taskCount(HttpServletRequest request, HttpServletResponse response) throws SQLException,
             ServletException, IOException {
-
+        // task number counting on dashboard page
         HttpSession session = request.getSession(true);
-        String email = (String) session.getAttribute("email");
+        User dbUser = userService.getUserIdByMail((String) session.getAttribute("email"));
 
-        allTaskList = taskService.viewAllTasks();
-        User dbUser = userService.getUserIdByMail(email);
-        myTaskList = taskService.getTaskByUserId(dbUser.getUserId());
-
-        int allTask = allTaskList.size();
-        request.setAttribute("allTask", allTask);
-
-        int myTask = myTaskList.size();
-        request.setAttribute("myTask", myTask);
-
-        RequestDispatcher view = request.getRequestDispatcher("dashboard.jsp");
-        view.forward(request, response);
-        //response.sendRedirect(request.getContextPath() + "/UserController?action=success");
+        request.setAttribute("allTask", taskService.viewAllTasks().size());
+        request.setAttribute("myTask", taskService.getTaskByUserId(dbUser.getUserId()).size());
+        request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+        // response.sendRedirect(request.getContextPath() + "/UserController?action=success");
     }
 
     private void getMyTask(HttpServletRequest request, HttpServletResponse response) throws SQLException,
             ServletException, IOException {
-
+        // getting tasklist of logged user
         HttpSession session = request.getSession(true);
-        String email = (String) session.getAttribute("email");
-        User dbuser = userService.getUserIdByMail(email);
-
-        myTaskList = taskService.getTaskByUserId(dbuser.getUserId());
-        request.setAttribute("myTaskList", myTaskList);
-
-        //response.sendRedirect(request.getContextPath() + "/TaskController?action=dashboard");
+        User dbuser = userService.getUserIdByMail((String) session.getAttribute("email"));
+        request.setAttribute("myTaskList", taskService.getTaskByUserId(dbuser.getUserId()));
+        // response.sendRedirect(request.getContextPath() + "/TaskController?action=dashboard");
         RequestDispatcher view = request.getRequestDispatcher("mytask.jsp");
         view.forward(request, response);
-        //response.sendRedirect("mytask.jsp");
-        //return myTaskList;
     }
 
     private void createTask(HttpServletRequest request, HttpServletResponse response) throws SQLException,
             ServletException, IOException {
 
-        String taskname = request.getParameter("taskname");
+        // for creation of new task
+        HttpSession session = request.getSession(true);
 
-        HttpSession session = request.getSession();
-        String email = (String) session.getAttribute("email");
-        User dbUser = userService.getUserIdByMail(email);
+        User dbUser = userService.getUserIdByMail((String) session.getAttribute("email"));
 
-        Task task = new Task();
-        task.setTaskName(taskname);
-        task.setTaskCreationDate(new Date());
+        String taskName = request.getParameter("taskName");
+        new Task(taskName, new Date());
+        taskService.createTask(taskName, dbUser.getUserId());
 
-        taskService.createTask(task, dbUser.getUserId());
-
-        myTaskList = taskService.getTaskByUserId(dbUser.getUserId());
-        request.setAttribute("myTaskList", myTaskList);
-
-        /*RequestDispatcher view = request.getRequestDispatcher("mytask.jsp");
-        view.include(request, response);*/
-        response.sendRedirect(request.getContextPath() + "/TaskController?action=mytasks");
+        if (dbUser.getRoleId() == 1) {
+            viewAllTask(request, response);
+        } else {
+            myTaskList = taskService.getTaskByUserId(dbUser.getUserId());
+            request.setAttribute("myTaskList", myTaskList);
+            response.sendRedirect(request.getContextPath() + "/TaskController?action=mytasks");
+        }
     }
 
     private void viewAllTask(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException, SQLException {
-        
+        // to view all tasklist with details
         HttpSession session = request.getSession();
-        session.getAttribute("email");
+        User dbUser = userService.getUserIdByMail((String) session.getAttribute("email"));
 
-        allTaskList = taskService.viewAllTasks();
-        request.setAttribute("allTaskList", allTaskList);
-
-        RequestDispatcher view = request.getRequestDispatcher("alltask.jsp");
-        view.include(request, response);
-        
-        //response.sendRedirect(request.getContextPath() + "/TaskController?action=alltasks");
-        //return allTaskList;
+        if (dbUser.getRoleId() == 1) {
+            request.setAttribute("allTaskList", taskService.viewAllTasks());
+            request.getRequestDispatcher("adminview.jsp").include(request, response);
+        } else {
+            request.setAttribute("allTaskList", taskService.viewAllTasks());
+            request.getRequestDispatcher("alltask.jsp").include(request, response);
+        }
+        // response.sendRedirect(request.getContextPath() + "/TaskController?action=alltasks");
     }
 }

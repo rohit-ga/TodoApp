@@ -9,6 +9,30 @@ public class User {
     private String userContact;
     private String userEmail;
     private String userPassword;
+    private int roleId;
+
+    public User() {
+    }
+
+    public User(String userFname, String userLname, String userGender, String userContact, String userEmail,
+            String userPassword, int roleId) {
+        super();
+        this.userFname = userFname;
+        this.userLname = userLname;
+        this.userGender = userGender;
+        this.userContact = userContact;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.roleId = roleId;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
 
     public int getUserId() {
         return userId;
@@ -70,8 +94,6 @@ public class User {
     public String toString() {
         return "User [userId=" + userId + ", userFname=" + userFname + ", userLname=" + userLname + ", userGender="
                 + userGender + ", userContact=" + userContact + ", userEmail=" + userEmail + ", userPassword="
-                + userPassword + "]";
+                + userPassword + ", roleId=" + roleId + "]";
     }
-
-    
 }
