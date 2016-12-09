@@ -31,7 +31,6 @@ public class TaskController extends HttpServlet {
     List<Task> myTaskList = new ArrayList<Task>();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
             doProcess(request, response);
         } catch (SQLException e) {
@@ -107,9 +106,8 @@ public class TaskController extends HttpServlet {
         HttpSession session = request.getSession(true);
         User dbuser = userService.getUserIdByMail((String) session.getAttribute("email"));
         request.setAttribute("myTaskList", taskService.getTaskByUserId(dbuser.getUserId()));
-        // response.sendRedirect(request.getContextPath() + "/TaskController?action=dashboard");
-        RequestDispatcher view = request.getRequestDispatcher("mytask.jsp");
-        view.forward(request, response);
+        //response.sendRedirect(getServletContext().getContextPath() + "/TaskController?action=mytasks" + "/mytask.jsp");
+        request.getRequestDispatcher("mytask.jsp").include(request, response);
     }
 
     private void createTask(HttpServletRequest request, HttpServletResponse response) throws SQLException,

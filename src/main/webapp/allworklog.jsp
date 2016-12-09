@@ -1,24 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Admin Page</title>
+<title>All Users Worklogs</title>
 </head>
 <body>
-<form method="get">
 	<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
 		style="float: left;" />
 	<br>
 	<br>
-	<br>
-	<br>
-	<a href="createtask.jsp">Create Your Task</a>
-	<br>
-	<br>
-	<a href="TaskController?action=getalltasks">View All Tasks</a>
 	<br>
 	<br>
 	<a href="UserController?action=logout">Logout</a>
@@ -31,24 +24,23 @@
 		    if (session.getAttribute("email") == null)
 		        response.sendRedirect("home.jsp");
 		%>
-		<h3>Tasks of Users</h3>
-		<TABLE BORDER="1" align="center">
+		<h3>All Users Worklogs</h3>
+		<h4>Task Name:-${taskName}</h4>
+		<TABLE border="1" align="center">
 			<TR>
-				<TH>Task Id</TH>
-				<TH>Task Name</TH>
-				<TH>Task Creation Date</TH>
-				<th>View Worklogs</th>
+				<TH>User Name</TH>
+				<TH>Start Time</TH>
+				<TH>End Time</TH>
+				<TH>Worklog Description</TH>
 			</TR>
-			<c:forEach items="${allTaskList}" var="allTaskList">
+			<c:forEach items="${worklogs}" var="worklogs">
 				<tr>
-					<td><c:out value="${allTaskList.taskId}" /></td>
-					<td><c:out value="${allTaskList.taskName}" /></td>
-					<td><c:out value="${allTaskList.taskCreationDate}" /></td>
-					<td><a
-						href="UserTaskController?action=check&taskId=<c:out value="${allTaskList.taskId}"/>">View</a></td>
+					<td><c:out value="${worklogs.userFname}" /></td>
+					<td><c:out value="${worklogs.startTime}" /></td>
+					<td><c:out value="${worklogs.endTime}" /></td>
+					<td><c:out value="${worklogs.description}" /></td>
 			</c:forEach>
-		</TABLE>
-	</div>
-	</form>
+			</TABLE>
+		</div>
 </body>
 </html>

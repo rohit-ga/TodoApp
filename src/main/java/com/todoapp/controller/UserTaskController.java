@@ -61,7 +61,23 @@ public class UserTaskController extends HttpServlet {
         } else if (action.equals("view")) {
             checkWorklogsOnMyTask(request, response);
             
-        } 
+        } else if (action.equals("check")) {
+            checkWorklogsOfAllTask(request, response);
+            
+        }
+    }
+
+    private void checkWorklogsOfAllTask(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        
+//      to check all worklog of all users created by them.
+        Integer taskId = Integer.parseInt(request.getParameter("taskId"));
+        Task dbTaskName = taskService.getTaskNameById(taskId);
+        
+        List<UserTaskDto> worklogs = userTaskService.checkWorklogsOfAllTask(taskId);
+        request.setAttribute("worklogs", worklogs);
+        request.setAttribute("taskName", dbTaskName.getTaskName());
+
+        request.getRequestDispatcher("allworklog.jsp").include(request, response);
     }
 
     private void checkWorklogsOnMyTask(HttpServletRequest request, HttpServletResponse response) throws SQLException,

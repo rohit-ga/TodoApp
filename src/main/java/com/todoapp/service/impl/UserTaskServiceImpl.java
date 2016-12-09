@@ -19,4 +19,8 @@ public class UserTaskServiceImpl implements IUserTaskService {
     public List<UserTaskDto> checkWorklogsOnMyTask(int taskId) throws SQLException {
         return userTaskDao.checkWorklogsOnMyTask(taskId);
     }
+
+    public List<UserTaskDto> checkWorklogsOfAllTask(int taskId) throws SQLException {
+        return userTaskDao.checkWorklogsOfAllTask(taskId);
+    }
 }
