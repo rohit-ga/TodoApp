@@ -45,7 +45,6 @@ public class UserDaoImpl implements IUserDao {
         pst.setString(6, user.getUserEmail());
         pst.setString(7, user.getUserPassword());
         pst.setInt(8, user.getRoleId());
-        
         pst.executeUpdate();
         return true;
     }
@@ -73,11 +72,6 @@ public class UserDaoImpl implements IUserDao {
         User dbUser = new User();
         while (rs.next()) {
             dbUser.setUserId(rs.getInt("uid"));
-            /*dbUser.setUserFname(rs.getString("firstname"));
-            dbUser.setUserLname(rs.getString("lastname"));
-            dbUser.setUserEmail(rs.getString("email"));
-            dbUser.setUserPassword(rs.getString("password"));
-            dbUser.setUserContact(rs.getString("contact"));*/
             dbUser.setRoleId(rs.getInt("roleid"));
         }
         return dbUser;
@@ -86,6 +80,7 @@ public class UserDaoImpl implements IUserDao {
     public User getUserFname() throws SQLException {
 
         PreparedStatement pst = connection.prepareStatement("select firstname from user");
+
         ResultSet rs = pst.executeQuery();
         User dbUserFname = new User();
         while (rs.next()) {

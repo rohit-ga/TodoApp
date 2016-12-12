@@ -8,28 +8,21 @@
 <title>All Tasks Page</title>
 </head>
 <body>
-	<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
-		style="float: left;" />
-	<br>
-	<br>
-	<br>
-	<br>
-	<a href="TaskController?action=dashboard">Dashboard Page</a>
-	<br>
-	<br>
-	<a href="UserController?action=logout">Logout</a>
-	<br>
-	<%
-	    response.setHeader("Cache-Control", "no-cache");
-	    response.setHeader("Cache-Control", "no-store");
-	    response.setHeader("Pragma", "no-cache");
-	    response.setDateHeader("Expires", 0);
-	    if (session.getAttribute("email") == null)
-	        response.sendRedirect("home.jsp");
-	%>
-	<div style="text-align: center;">
-		<h3>All Tasks</h3>
-		<form method="get">
+	<form method="get">
+		<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
+			style="float: left;" /> <br> <br> <br> <br> <a
+			href="TaskController?action=dashboard">Dashboard Page</a> <br> <br>
+		<a href="UserController?action=logout">Logout</a> <br>
+		<%
+		    response.setHeader("Cache-Control", "no-cache");
+		    response.setHeader("Cache-Control", "no-store");
+		    response.setHeader("Pragma", "no-cache");
+		    response.setDateHeader("Expires", 0);
+		    if (session.getAttribute("email") == null)
+		        response.sendRedirect("home.jsp");
+		%>
+		<div style="text-align: center;">
+			<h3>All Tasks</h3>
 			<TABLE BORDER="1" align="center">
 				<TR>
 					<TH>Task Id</TH>
@@ -47,7 +40,7 @@
 								Worklog</a></td>
 				</c:forEach>
 			</TABLE>
-		</form>
-	</div>
+		</div>
+	</form>
 </body>
 </html>

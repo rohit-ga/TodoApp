@@ -7,35 +7,39 @@
 <title>Dashboard Page</title>
 </head>
 <body>
-	<form method="get">
-		<div style="text-align: center;">
-
-			<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
-				style="float: left;" /> <br> <br> <br>
-			<%
-			    if (request.getAttribute("message") == null) {
-
-			    } else {
-			        out.print(request.getAttribute("message"));
-			    }
-			%>
-			<h2>Dashboard</h2>
-
-			<label for="alltasks" style="margin: 5%">Total Tasks = <%=request.getAttribute("allTask")%></label>
-			<label for="mytasks" style="margin: 5%">My Tasks = <%=request.getAttribute("myTask")%></label>
-		</div>
-		<a href="TaskController?action=dashboard">Dashboard</a> <br> <br>
-		<a href="TaskController?action=mytasks">My Tasks</a> <br> <br>
-		<a href="TaskController?action=alltasks">All Tasks</a> <br> <br>
-		<a href="UserController?action=logout">Logout</a> <br> <br>
+	<div style="text-align: center;">
+		<img src="Image/Todo-App-Logo-Design.png" height="20%" width="5%"
+			style="float: left;" /> <br> <br> <br>
 		<%
-		    response.setHeader("Cache-Control", "no-cache");
-		    response.setHeader("Cache-Control", "no-store");
-		    response.setHeader("Pragma", "no-cache");
-		    response.setDateHeader("Expires", 0);
-		    if (session.getAttribute("email") == null)
-		        response.sendRedirect("home.jsp");
+		    if (request.getAttribute("message") == null) {
+
+		    } else {
+		        out.print(request.getAttribute("message"));
+		    }
 		%>
-	</form>
+		<h2>Dashboard</h2>
+		<label for="alltasks" style="margin: 5%">Total Tasks = <%=request.getAttribute("allTask")%></label>
+		<label for="mytasks" style="margin: 5%">My Tasks = <%=request.getAttribute("myTask")%></label>
+	</div>
+	<a href="TaskController?action=dashboard">Dashboard</a>
+	<br>
+	<br>
+	<a href="TaskController?action=mytasks">My Tasks</a>
+	<br>
+	<br>
+	<a href="TaskController?action=alltasks">All Tasks</a>
+	<br>
+	<br>
+	<a href="UserController?action=logout">Logout</a>
+	<br>
+	<br>
+	<%
+	    response.setHeader("Cache-Control", "no-cache");
+	    response.setHeader("Cache-Control", "no-store");
+	    response.setHeader("Pragma", "no-cache");
+	    response.setDateHeader("Expires", 0);
+	    if (session.getAttribute("email") == null)
+	        response.sendRedirect("home.jsp");
+	%>
 </body>
 </html>

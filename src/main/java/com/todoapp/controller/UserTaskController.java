@@ -2,10 +2,8 @@ package com.todoapp.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,12 +24,11 @@ public class UserTaskController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    RequestDispatcher view;
     UserTask userTask = new UserTask();
     UserTaskServiceImpl userTaskService = new UserTaskServiceImpl();
     UserServiceImpl userService = new UserServiceImpl();
     TaskServiceImpl taskService = new TaskServiceImpl();
-    List<Task> allTaskList = new ArrayList<Task>();
+//    List<Task> allTaskList = new ArrayList<Task>();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -117,7 +114,6 @@ public class UserTaskController extends HttpServlet {
 
         userTaskService.addWorklog(userTask, taskId, dbUser.getUserId());
         request.setAttribute("allTaskList", taskService.viewAllTasks());
-
         request.getRequestDispatcher("alltask.jsp").forward(request, response);
     }
 }

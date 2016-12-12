@@ -15,8 +15,6 @@ import com.todoapp.util.DatabaseConnection;
 public class TaskDaoImpl implements ITaskDao {
 
     static Connection connection;
-    List<Task> allTaskList = new ArrayList<Task>();
-    List<Task> myTaskList = new ArrayList<Task>();
 
     {
         try {
@@ -39,7 +37,7 @@ public class TaskDaoImpl implements ITaskDao {
     public List<Task> viewAllTask() throws SQLException {
 
         PreparedStatement pst = connection.prepareStatement("select * from taskdetails");
-
+        List<Task> allTaskList = new ArrayList<Task>();
         ResultSet rs = pst.executeQuery();
         while (rs.next()) {
             Task dbTask = new Task();
@@ -55,7 +53,7 @@ public class TaskDaoImpl implements ITaskDao {
 
         PreparedStatement pst = connection.prepareStatement("select * from taskdetails where uid = ?");
         pst.setInt(1, dbUser);
-
+        List<Task> myTaskList = new ArrayList<Task>();
         ResultSet rs = pst.executeQuery();
         while (rs.next()) {
             Task dbTask = new Task();
@@ -70,9 +68,7 @@ public class TaskDaoImpl implements ITaskDao {
     public Task getTaskNameById(int taskId) throws SQLException {
         PreparedStatement pst = connection.prepareStatement("select taskname from taskdetails where taskid=?");
         pst.setInt(1, taskId);
-
         Task dbTaskName = new Task();
-
         ResultSet rs = pst.executeQuery();
         while (rs.next()) {
             dbTaskName.setTaskName(rs.getString("taskname"));

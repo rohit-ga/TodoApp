@@ -3,7 +3,6 @@ package com.todoapp.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +19,6 @@ import com.todoapp.util.Constant;
 public class UserController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    RequestDispatcher view;
     UserServiceImpl userService = new UserServiceImpl();
     TaskServiceImpl taskService = new TaskServiceImpl();
     User user = new User();
@@ -98,7 +96,7 @@ public class UserController extends HttpServlet {
 
             /* fetching the user by its id */
             User dbuser = userService.getUserIdByMail(email);
-            
+
             // ADMIN LOGIN
             if (dbuser.getRoleId() == 1) {
                 request.setAttribute("allTaskList", taskService.viewAllTasks());

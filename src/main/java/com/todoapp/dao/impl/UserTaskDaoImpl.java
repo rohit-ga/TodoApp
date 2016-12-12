@@ -14,8 +14,6 @@ import com.todoapp.util.DatabaseConnection;
 
 public class UserTaskDaoImpl implements IUserTaskDao {
 
-    List<UserTaskDto> worklogs = new ArrayList<UserTaskDto>();
-
     static Connection connection;
 
     {
@@ -34,9 +32,8 @@ public class UserTaskDaoImpl implements IUserTaskDao {
         pst.setString(3, userTask.getStartTime());
         pst.setString(4, userTask.getEndTime());
         pst.setString(5, userTask.getDescription());
-        pst.setInt(6,0);
+        pst.setInt(6, 0);
         pst.executeUpdate();
-
     }
 
     public List<UserTaskDto> checkWorklogsOnMyTask(int taskId) throws SQLException {
@@ -44,7 +41,7 @@ public class UserTaskDaoImpl implements IUserTaskDao {
         PreparedStatement pst = connection
                 .prepareStatement("select firstname,start_time,end_time,description from user_task join user on user.uid = user_task.uid where taskid=?");
         pst.setInt(1, taskId);
-
+        List<UserTaskDto> worklogs = new ArrayList<UserTaskDto>();
         ResultSet rs = pst.executeQuery();
         while (rs.next()) {
             UserTaskDto dbUserTaskDto = new UserTaskDto();
@@ -58,9 +55,10 @@ public class UserTaskDaoImpl implements IUserTaskDao {
     }
 
     public List<UserTaskDto> checkWorklogsOfAllTask(int taskId) throws SQLException {
-        
-        PreparedStatement pst = connection.prepareStatement("select firstname,start_time,end_time,description from user_task join user on user.uid = user_task.uid");
-        
+
+        PreparedStatement pst = connection
+                .prepareStatement("select firstname,start_time,end_time,description from user_task join user on user.uid = user_task.uid");
+        List<UserTaskDto> worklogs = new ArrayList<UserTaskDto>();
         ResultSet rs = pst.executeQuery();
         while (rs.next()) {
             UserTaskDto dbUserTaskDto = new UserTaskDto();
